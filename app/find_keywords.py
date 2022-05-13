@@ -42,7 +42,6 @@ class read_files():
     def __read_txt_file(self, file_path):
         with open(file_path, 'rb') as f:
             opened_file=f.readlines()
-            f.close()
             return opened_file #opening file and returning content as string
     
     #def __parse_txt():
@@ -52,7 +51,8 @@ class read_files():
         opened_text_file=dict()
         for file in os.listdir():
             if file.endswith(".txt"):
-                file_path = f"{self.path}\{file}"
+                file_path = f"{self.path}/{file}"
+                print(self.path, file_path, file)
                 #call read text file function
                 opened_text_file[file]=(self.__read_txt_file(file_path))
         return opened_text_file
@@ -118,19 +118,16 @@ class retrieve_file_keywords():
                 iterate_through=find_kwds.iterate_through_content(i,self.keywords)
                 self.words_counted.append(iterate_through) 
             #keyword_occurrences is a dictionary that comprises the different folders as primary keys
-            keyword_occurrences[filepath.split('\\')[0]]=self.__insert_dataframe()
+            keyword_occurrences[filepath.split('/')[0]]=self.__insert_dataframe()
             print('done')
         self.__write_to_excel(keyword_occurrences)
     
     def __write_to_excel(self, keyword_occurrences):
         #you can change the path below to where you want the results save in your computer
-        writer = pd.ExcelWriter(re.escape(self.return_file), engine='xlsxwriter')
-        with pd.ExcelWriter(re.escape(self.base_pathreturn_file)) as writer:
+        with pd.ExcelWriter(re.escape(self.return_file), engine='xlsxwriter') as writer:
             for df_key in self.filepaths:
-                keyword_occurrences[df_key.split('\\')[0]].to_excel(writer, sheet_name=df_key.split('\\')[0])
+                keyword_occurrences[df_key.split('/')[0]].to_excel(writer, sheet_name=df_key.split('/')[0])
         print('finished')
-        # Close the Pandas Excel writer and output the Excel file.
-        writer.save()
 ##NEEDS: more refinement on what is accepted as a word. i.e industries should 
 ## accept industry so you like do a x.slice(0,5) as a keyword and maybe
 ## do a dict dict_name[x.slice(0,5)][{'words':['industry', 'industries' 'industrialization'],count:3}    
