@@ -1,0 +1,1 @@
+python3 ./main.py "C:\\Users\\LMbogo\\OneDrive - International Monetary Fund (PRD)\\All_Raw_Data_By_Source\\"     "['AIV_2000-2021\\txt','COM_Flagships\\txt','Ereview\\txt','Program_2021\\txt']" "['governance', 'corruption', 'bribery']" "C:\\Users\\LMbogo\\OneDrive - International Monetary Fund (PRD)\\SPR\\SPRAI PROJECTS\\0.2 Text Mining\\Text Mining Results\\textmining.xlsx"

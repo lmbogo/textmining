@@ -94,10 +94,11 @@ class find_keywords():
         return ind_word_dict
 
 class retrieve_file_keywords():
-    def __init__(self, basepath, keywords, filepaths):
+    def __init__(self, basepath, keywords, filepaths, return_file):
         self.base_path=basepath
         self.keywords=keywords
         self.filepaths=filepaths
+        self.return_file=return_file
         self.words_counted=[]
         self.content=dict()
         
@@ -123,8 +124,8 @@ class retrieve_file_keywords():
     
     def __write_to_excel(self, keyword_occurrences):
         #you can change the path below to where you want the results save in your computer
-        writer = pd.ExcelWriter(r'C:\\Users\\LMbogo\\OneDrive - International Monetary Fund (PRD)\\SPR\\SPRAI PROJECTS\\0.2 Text Mining\\Text Mining Results\\textmining.xlsx', engine='xlsxwriter')
-        with pd.ExcelWriter(r'C:\\Users\\LMbogo\\OneDrive - International Monetary Fund (PRD)\\SPR\\SPRAI PROJECTS\\0.2 Text Mining\\Text Mining Results\\textmining.xlsx') as writer:
+        writer = pd.ExcelWriter(re.escape(self.return_file), engine='xlsxwriter')
+        with pd.ExcelWriter(re.escape(self.base_pathreturn_file)) as writer:
             for df_key in self.filepaths:
                 keyword_occurrences[df_key.split('\\')[0]].to_excel(writer, sheet_name=df_key.split('\\')[0])
         print('finished')
@@ -133,10 +134,5 @@ class retrieve_file_keywords():
 ##NEEDS: more refinement on what is accepted as a word. i.e industries should 
 ## accept industry so you like do a x.slice(0,5) as a keyword and maybe
 ## do a dict dict_name[x.slice(0,5)][{'words':['industry', 'industries' 'industrialization'],count:3}    
-if __name__ == "__main__":
-    base_path="C:\\Users\\LMbogo\\OneDrive - International Monetary Fund (PRD)\\All_Raw_Data_By_Source\\"
-    filepaths=['AIV_2000-2021\\txt','COM_Flagships\\txt','Ereview\\txt','Program_2021\\txt']
-    keywords = list(['governance', 'corruption', 'bribery'])
-    get_file_keywords=retrieve_file_keywords(base_path, keywords, filepaths)
-    get_file_keywords.run()
+
    
